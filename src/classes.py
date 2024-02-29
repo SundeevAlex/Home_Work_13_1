@@ -11,11 +11,12 @@ class Category:
 
         Category.count_of_category += 1
 
-    def add_list_goods(self):
+    def add_list_good(self, goods):
         """
         добавление товаров в категорию
         """
-        return self.list_goods.append(self.__goods)
+        if isinstance(goods, Product):
+            self.list_goods.append(goods)
 
     @property
     def print_goods(self):
