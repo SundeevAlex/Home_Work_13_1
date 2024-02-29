@@ -52,7 +52,7 @@ def get_category_and_product(data):
         for el in category["products"]:
             products.append(Product(el["name"], el["description"], el["price"], el["quantity"]))
             Category.unique_goods += 1
-        categories[i].add_list_goods()
+            categories[i].add_list_good(products)
         i += 1
     # print(categories[0].print_goods)
     print_products(products)
