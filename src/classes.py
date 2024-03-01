@@ -1,3 +1,6 @@
+from abc import ABC, abstractmethod
+
+
 class Category:
     """Класс категории"""
     count_of_category = 0
@@ -18,6 +21,13 @@ class Category:
         if isinstance(goods, Product):
             self.list_goods.append(goods)
 
+    # def add_product(self, data, new_good):
+    #     """Добавление в список продуктов нового продукта"""
+    #     if isinstance(new_good, Product) or issubclass(new_good.__class__, Product):
+    #         data.append(new_good)
+    #         return data
+    #     else:
+    #         raise TypeError("Не является объектом Product или его наследником")x
     @property
     def print_goods(self):
         """
@@ -45,12 +55,37 @@ class Category:
                 f"количество уникальных продуктов={self.unique_goods}')")
 
 
-class Product:
+class BaseProduct(ABC):
+
+    @abstractmethod
+    def new_goods(self, name: str, description: str, price: float, quantity: int):
+        pass
+
+    @abstractmethod
+    def prices(self):
+        pass
+
+    @abstractmethod
+    def __add__(self, other):
+        pass
+
+
+class MixinRepr:
+
+    def __init__(self, *args, **kwargs):
+        print(repr(self))
+
+    def __repr__(self):
+        return f'Создан объект --> {self.__class__.__name__}, {self.__dict__.items()}'
+
+
+class Product(MixinRepr, BaseProduct):
     """Класс продукт"""
     count_of_products = 0
     new_good = []
 
     def __init__(self, name: str, description: str, price: float, quantity: int, color='No'):
+        super().__init__()
         self.name = name
         self.description = description
         self.__price = price
@@ -59,22 +94,21 @@ class Product:
 
         Product.count_of_products += 1
 
-    @classmethod
-    def new_goods(cls, name: str, description: str, price: float, quantity: int):
+    def new_goods(self, name: str, description: str, price: float, quantity: int):
         """
         создание товара
         """
-        new_good = cls(name, description, price, quantity)
+        new_good = name, description, price, quantity
         return new_good
 
-    @staticmethod
-    def add_product(data, new_good):
-        """Добавление в список продуктов нового продукта"""
-        if isinstance(new_good, Product) or issubclass(new_good.__class__, Product):
-            data.append(new_good)
-            return data
-        else:
-            raise TypeError("Не является объектом Product или его наследником")
+    # @staticmethod
+    # def add_product(self, data, new_good):
+    #     """Добавление в список продуктов нового продукта"""
+    #     if isinstance(new_good, Product) or issubclass(new_good.__class__, Product):
+    #         data.append(new_good)
+    #         return data
+    #     else:
+    #         raise TypeError("Не является объектом Product или его наследником")
 
     @property
     def prices(self):
@@ -111,12 +145,12 @@ class Product:
     def __str__(self):
         return f'{self.name}, {int(self.__price)} руб. Остаток: {self.quantity} шт.'
 
-    def __repr__(self):
-        return (f"Product: ('{self.name}', '{self.description}', '{self.__price}', "
-                f"'Количество продуктов в наличии={self.quantity}')")
+    # def __repr__(self):
+    #     return (f"Product: ('{self.name}', '{self.description}', '{self.__price}', "
+    #             f"'Количество продуктов в наличии={self.quantity}')")
 
 
-class SmartPhone(Product):
+class SmartPhone(Product, MixinRepr):
     """Класс смартфон"""
 
     def __init__(self, efficiency: float, model: str, memory: float, name: str, description: str, price: float,
@@ -127,7 +161,7 @@ class SmartPhone(Product):
         self.memory = memory
 
 
-class LawnGrass(Product):
+class LawnGrass(Product, MixinRepr):
     """Класс трава газонная"""
 
     def __init__(self, made: str, period: float, name: str, description: str, price: float, quantity: int, color):
@@ -135,6 +169,9 @@ class LawnGrass(Product):
         self.made = made
         self.period = period
 
+
+smr = SmartPhone(100, 'hjkhj', 512, 'name', 'descr', 1000, 5, 'witi')
+lgr = LawnGrass('China', 6.5, 'nam', 'descrip', 850, 3, 'green')
 
 # new_product = Product.new_goods("Sony", "мычит", 500.0, 10)
 # print('Новый продукт:', new_product)
