@@ -5,7 +5,6 @@ class Category:
     """Класс категории"""
     count_of_category = 0
     unique_goods = 0
-    list_goods = []
 
     def __init__(self, name: str, description: str, goods: list):
         self.name = name
@@ -19,25 +18,17 @@ class Category:
         добавление товаров в категорию
         """
         if isinstance(goods, Product):
-            self.list_goods.append(goods)
+            self.__goods.append(goods)
 
-    # def add_product(self, data, new_good):
-    #     """Добавление в список продуктов нового продукта"""
-    #     if isinstance(new_good, Product) or issubclass(new_good.__class__, Product):
-    #         data.append(new_good)
-    #         return data
-    #     else:
-    #         raise TypeError("Не является объектом Product или его наследником")x
     @property
     def print_goods(self):
         """
         геттер, который выводит список товаров
         """
         result = ''
-        for i in range(0, len(self.list_goods)):
-            for j in range(0, len(self.list_goods[i])):
-                result += (f'{self.list_goods[i][j]['name']}, {int(self.list_goods[i][j]['price'])} руб. '
-                           f'Остаток: {self.list_goods[i][j]['quantity']} шт.\n')
+        for i in range(0, len(self.__goods)):
+            result += (f'{self.__goods[i]['name']}, {int(self.__goods[i]['price'])} руб. '
+                       f'Остаток: {self.__goods[i]['quantity']} шт.\n')
         return result
 
     def __len__(self):
@@ -47,7 +38,7 @@ class Category:
         return len(self.__goods)
 
     def __str__(self):
-        return f'{self.name}, количество продуктов:'
+        return f'{self.name}, количество продуктов: {len(self)} шт.'
 
     def __repr__(self):
         return (f"Category: ('{self.name}', {self.description}, '{self.__goods}', "
@@ -69,28 +60,34 @@ class BaseProduct(ABC):
     def __add__(self, other):
         pass
 
+    @abstractmethod
+    def __str__(self):
+        pass
+
 
 class MixinRepr:
 
     def __init__(self, *args, **kwargs):
-        print(repr(self))
+        pass
+        # print(repr(self))
 
     def __repr__(self):
         return f'Создан объект --> {self.__class__.__name__}, {self.__dict__.items()}'
 
 
-class Product(MixinRepr, BaseProduct):
+class Product(BaseProduct, MixinRepr):
     """Класс продукт"""
     count_of_products = 0
     new_good = []
 
-    def __init__(self, name: str, description: str, price: float, quantity: int, color='No'):
+    def __init__(self, name: str, description: str, price: float, quantity: int, color=None):
         super().__init__()
         self.name = name
         self.description = description
         self.__price = price
         self.quantity = quantity
         self.color = color
+        print(repr(self))
 
         Product.count_of_products += 1
 
@@ -170,8 +167,7 @@ class LawnGrass(Product, MixinRepr):
         self.period = period
 
 
-smr = SmartPhone(100, 'hjkhj', 512, 'name', 'descr', 1000, 5, 'witi')
-lgr = LawnGrass('China', 6.5, 'nam', 'descrip', 850, 3, 'green')
-
+smr = SmartPhone(1000.0, 'ZTE-5', 512.0, 'Nokia', 'The best phone', 1000, 5, 'silver')
+lgr = LawnGrass('China', 6.5, 'Kanadka', 'Very beautiful', 850, 3, 'green')
 # new_product = Product.new_goods("Sony", "мычит", 500.0, 10)
 # print('Новый продукт:', new_product)
