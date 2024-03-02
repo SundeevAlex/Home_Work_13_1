@@ -27,7 +27,7 @@ def print_categories(data):
     Для класса Category строковое отображение
     """
     for i in range(0, len(data)):
-        print(f'{data[i]} {len(data[i])} шт.')
+        print(f'{data[i]}')
 
 
 # def print_count_result(data):
@@ -52,15 +52,14 @@ def get_category_and_product(data):
         for el in category["products"]:
             products.append(Product(el["name"], el["description"], el["price"], el["quantity"]))
             Category.unique_goods += 1
-            categories[i].add_list_good(products)
+        categories[0].add_list_good(products)
         i += 1
     # print(categories[0].print_goods)
-    print_products(products)
-    print()
-    print_categories(categories)
-    print()
+    # print_products(products)
+    # print()
+    # print_categories(categories)
+    # print()
     # print_count_result(products)
-    # new_product = Product.new_goods("Sony", "мычит", 500.0, 9)
+    # new_product = Product.new_goods("Sony", "мычит", 'Simple', 950, 25)
     # print('Новый продукт:', new_product)
-    # Product.add_product(products, new_product)
     return [categories, products]
