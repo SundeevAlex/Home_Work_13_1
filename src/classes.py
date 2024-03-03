@@ -16,15 +16,17 @@ class Category:
 
     def add_list_good(self, goods):
         """
-        добавление товаров в категорию
+        преобразовывание товара класса product в словарь
+        и добавление товаров в категорию
         """
+        goods_dict = {
+            "name": goods.name,
+            "description": goods.description,
+            "price": goods.prices,
+            "quantity": goods.quantity,
+        }
         if isinstance(goods, Product):
-            print('что добавляем -->', goods, '<--')
-            print('что было -->', self.__goods, '<--')
-            self.__goods.append(goods)
-            print('что получилось->', self.__goods, '**')
-        for el in self.__goods:
-            print('Элементы:', el)
+            self.__goods.append(goods_dict)
 
     @property
     def products_list(self):
@@ -108,13 +110,7 @@ class Product(BaseProduct, MixinRepr):
         создание товара
         """
         new_good = cls(name, description, price, quantity)
-        print('создание товара==>', new_good)
-        # new_good = name, description, price, quantity
         return new_good
-
-    # @classmethod
-    # def new_goods(cls, name: str, description: str, price: float, quantity: int):
-    #     return cls(**name: str, description: str, price: float, quantity: int)
 
         # @staticmethod
         # def add_product(self, data, new_good):
