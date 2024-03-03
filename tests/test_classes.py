@@ -56,7 +56,7 @@ def test_products_init(class_products):
 
 
 def test_products_count_of_products(class_products):
-    assert class_products.count_of_products == 6
+    assert class_products.count_of_products == 4
 
 
 def test_products_repr(class_products):

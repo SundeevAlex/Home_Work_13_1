@@ -10,15 +10,27 @@ class Category:
         self.name = name
         self.description = description
         self.__goods = goods
+        # print(self.__goods)
 
         Category.count_of_category += 1
 
     def add_list_good(self, goods):
         """
-        добавление товаров в категорию
+        преобразовывание товара класса product в словарь
+        и добавление товаров в категорию
         """
+        goods_dict = {
+            "name": goods.name,
+            "description": goods.description,
+            "price": goods.prices,
+            "quantity": goods.quantity,
+        }
         if isinstance(goods, Product):
-            self.__goods.append(goods)
+            self.__goods.append(goods_dict)
+
+    @property
+    def products_list(self):
+        return self.__goods
 
     @property
     def print_goods(self):
@@ -72,7 +84,8 @@ class MixinRepr:
         # print(repr(self))
 
     def __repr__(self):
-        return f'Создан объект --> {self.__class__.__name__}, {self.__dict__.items()}'
+        pass
+        # return f'Создан объект --> {self.__class__.__name__}, {self.__dict__.items()}'
 
 
 class Product(BaseProduct, MixinRepr):
@@ -87,25 +100,26 @@ class Product(BaseProduct, MixinRepr):
         self.__price = price
         self.quantity = quantity
         self.color = color
-        print(repr(self))
+        # print(repr(self))
 
         Product.count_of_products += 1
 
-    def new_goods(self, name: str, description: str, price: float, quantity: int):
+    @classmethod
+    def new_goods(cls, name: str, description: str, price: float, quantity: int):
         """
         создание товара
         """
-        new_good = name, description, price, quantity
+        new_good = cls(name, description, price, quantity)
         return new_good
 
-    # @staticmethod
-    # def add_product(self, data, new_good):
-    #     """Добавление в список продуктов нового продукта"""
-    #     if isinstance(new_good, Product) or issubclass(new_good.__class__, Product):
-    #         data.append(new_good)
-    #         return data
-    #     else:
-    #         raise TypeError("Не является объектом Product или его наследником")
+        # @staticmethod
+        # def add_product(self, data, new_good):
+        #     """Добавление в список продуктов нового продукта"""
+        #     if isinstance(new_good, Product) or issubclass(new_good.__class__, Product):
+        #         data.append(new_good)
+        #         return data
+        #     else:
+        #         raise TypeError("Не является объектом Product или его наследником")
 
     @property
     def prices(self):
@@ -142,16 +156,16 @@ class Product(BaseProduct, MixinRepr):
     def __str__(self):
         return f'{self.name}, {int(self.__price)} руб. Остаток: {self.quantity} шт.'
 
-    # def __repr__(self):
-    #     return (f"Product: ('{self.name}', '{self.description}', '{self.__price}', "
-    #             f"'Количество продуктов в наличии={self.quantity}')")
+    def __repr__(self):
+        return (f"Product: ('{self.name}', '{self.description}', '{self.__price}', "
+                f"'Количество продуктов в наличии={self.quantity}')")
 
 
 class SmartPhone(Product, MixinRepr):
     """Класс смартфон"""
 
     def __init__(self, efficiency: float, model: str, memory: float, name: str, description: str, price: float,
-                 quantity: int, color):
+                     quantity: int, color):
         super(SmartPhone, self).__init__(name, description, price, quantity, color)
         self.efficiency = efficiency
         self.model = model
@@ -166,8 +180,7 @@ class LawnGrass(Product, MixinRepr):
         self.made = made
         self.period = period
 
-
-smr = SmartPhone(1000.0, 'ZTE-5', 512.0, 'Nokia', 'The best phone', 1000, 5, 'silver')
-lgr = LawnGrass('China', 6.5, 'Kanadka', 'Very beautiful', 850, 3, 'green')
-# new_product = Product.new_goods("Sony", "мычит", 500.0, 10)
-# print('Новый продукт:', new_product)
+    # smr = SmartPhone(1000.0, 'ZTE-5', 512.0, 'Nokia', 'The best phone', 1000, 5, 'silver')
+    # lgr = LawnGrass('China', 6.5, 'Kanadka', 'Very beautiful', 850, 3, 'green')
+    # new_product = Product.new_goods("Sony", "мычит", 500.0, 10)
+    # print('Новый продукт:', new_product)
