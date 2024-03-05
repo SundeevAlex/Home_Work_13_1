@@ -25,7 +25,11 @@ class Category:
             "price": goods.prices,
             "quantity": goods.quantity,
         }
-        if isinstance(goods, Product):
+
+        if goods.quantity < 1:
+            raise ValueError('Товар с нулевым количеством не может быть добавлен.')
+
+        if isinstance(goods, Product) or issubclass(goods.__class__, Product):
             self.__goods.append(goods_dict)
 
     @property
