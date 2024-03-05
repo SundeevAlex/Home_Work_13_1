@@ -14,6 +14,22 @@ class Category:
 
         Category.count_of_category += 1
 
+    def count_average_price(self):
+        """
+        подсчитывает средний ценник всех товаров
+        """
+        sum_prices = 0
+        count_goods = 0
+        try:
+            for i in range(0, len(self.__goods)):
+                sum_prices += self.__goods[i]['price']
+                count_goods += self.__goods[i]['quantity']
+            result = sum_prices / count_goods
+        except ZeroDivisionError:
+            return 0
+        else:
+            return f'Средний ценник всех товаров: {round(result, 2)}'
+
     def add_list_good(self, goods):
         """
         преобразовывание товара класса product в словарь
@@ -169,7 +185,7 @@ class SmartPhone(Product, MixinRepr):
     """Класс смартфон"""
 
     def __init__(self, efficiency: float, model: str, memory: float, name: str, description: str, price: float,
-                     quantity: int, color):
+                 quantity: int, color):
         super(SmartPhone, self).__init__(name, description, price, quantity, color)
         self.efficiency = efficiency
         self.model = model
