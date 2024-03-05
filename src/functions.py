@@ -57,7 +57,8 @@ def get_category_and_product(data):
     # print()
     # print_count_result(products)
 
-    # new_product = Product.new_goods("Sony", "мычит", 950, 15)
-    # categories[0].add_list_good(new_product)
+    print(categories[0].count_average_price())
+    new_product = Product.new_goods("Sony", "мычит", 950, 0)
+    categories[0].add_list_good(new_product)
     # print(categories[0].print_goods)
     return [categories, products]
